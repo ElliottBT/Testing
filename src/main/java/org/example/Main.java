@@ -30,7 +30,7 @@ public class Main {
                 case "3":
                     holidays = holidays1.showHolidaysByMonth();
                     System.out.println("Введите номер праздника: ");
-                    int numberOfHoliday = scannerInput.nextInt();
+                    int numberOfHoliday = Integer.parseInt(scannerInput.nextLine());
                     if (!holidays.isEmpty() && numberOfHoliday > 0 && numberOfHoliday <= holidays.size()) {
                         nameOfHoliday = holidays.get(numberOfHoliday - 1);
                         if (holidays.contains(nameOfHoliday)) {
