@@ -5,19 +5,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Holidays {
-    public String getUserChoice() {
-        Scanner scannerFunction = new Scanner(System.in);
-        String choice = scannerFunction.nextLine();
-        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("exit")) {
-            System.out.println("Нет такой функции!");
-            System.out.print("Ваш выбор: ");
-            choice = scannerFunction.nextLine();
-        }
-        return choice;
-    }
 
-    public void addHolidayToFile(File file, Scanner scannerInput, ArrayList<String> holidays) {
-        String nameOfHoliday = "";
+
+    public void addHolidayToFile(File file, Scanner scannerInput) {
+        ArrayList<String> holidays = new ArrayList<>();
+        String nameOfHoliday;
         System.out.print("Введите название месяца: ");
         String chosenMonth = scannerInput.nextLine();
         while (true) {
@@ -39,6 +31,7 @@ public class Holidays {
             PrintWriter printer = new PrintWriter(writer);
             printer.println(newHoliday);
             printer.close();
+            System.out.println("Праздник "+nameOfHoliday+" успешно добавлен");
         } catch (IOException e) {
             System.out.println("Ошибка записи в файл");
         }
@@ -47,7 +40,7 @@ public class Holidays {
     public void deleteHolidayFromFile(File file, String holidayName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            ArrayList<String> lines = new ArrayList<String>();
+            ArrayList<String> lines = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.contains(holidayName)) {
@@ -68,7 +61,7 @@ public class Holidays {
 
     public ArrayList<String> showHolidaysByMonth() {
         String chosenMonth;
-        ArrayList<String> holidays = new ArrayList<String>();
+        ArrayList<String> holidays = new ArrayList<>();
         File fileHolidays = new File("holidays.txt");
         System.out.println("Список месяцев:");
         for (Month.Months months : Month.Months.values()) {

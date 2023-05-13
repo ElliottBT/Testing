@@ -11,27 +11,21 @@ public class Main {
         String funcPrint = "Функции программы: \n[1] - Просмотр праздников;\n[2] - Добавление праздников;\n[3] - Удаление праздников;\n[exit] - Выход из программы;";
         System.out.println(funcPrint);
         System.out.print("Ваш выбор: ");
-        Scanner scannerFunction = new Scanner(System.in);
         Holidays holidays1 = new Holidays();
-        String choice = holidays1.getUserChoice();
-        ArrayList<String> holidays = new ArrayList<String>();
+        String nameOfHoliday;
+        String choice;
         File
                 fileHolidays = new File("holidays.txt");
         Scanner scannerInput = new Scanner(System.in); // добавлено создание scannerInput
-        while (choice.equals("exit") == false) {
+        while (!(choice = scannerInput.nextLine()).equals("exit")) {
             switch (choice) {
+
                 case "1":
-                    holidays = holidays1.showHolidaysByMonth();
-                    System.out.println(funcPrint);
-                    System.out.print("Выберите функцию: ");
-                    choice = scannerFunction.nextLine();
+                    ArrayList<String> holidays;
+                    holidays1.showHolidaysByMonth();
                     break;
                 case "2":
-                    holidays1.addHolidayToFile(fileHolidays, scannerInput, holidays);
-                    System.out.println(funcPrint);
-                    System.out.println("Выберите функцию: ");
-                    choice = holidays1.getUserChoice();
-                    String nameOfHoliday = "";
+                    holidays1.addHolidayToFile(fileHolidays, scannerInput);
                     break;
                 case "3":
                     holidays = holidays1.showHolidaysByMonth();
@@ -44,13 +38,17 @@ public class Main {
                             holidays.remove(nameOfHoliday);
                         }
                     } else {
-                        System.out.println("Праздник не найден!");
+                        System.out.println("Праздник не найден! ");
                     }
+                    break;
+                default:
+                    System.out.println("Неверно выбрана функция! ");
                     System.out.println(funcPrint);
-                    System.out.println("Выберите функцию: ");
-                    choice = holidays1.getUserChoice();
+                    System.out.println("Выберите функцию заново: ");
                     break;
             }
+            System.out.println(funcPrint);
+            System.out.println("Выберите функцию: ");
         }
     }
 }
