@@ -1,99 +1,55 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
+
+
     public static void main(String[] args) {
-        int mes = 0;
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
-        System.out.println("Выберите месяц:");
-        System.out.println("[1]: Январь \n[2]: Февраль \n[3]: Март \n[4]: Апрель \n[5]: Май \n[6]: Июнь \n[7]: Июль \n[8]: Август \n[9]: Сентябрь \n[10]: Октябрь \n[11]: Ноябрь \n[12]: Декабрь");
-        System.out.println("Для завершения вывода информации введите exit");
-        while (true) { //Продолжаем ввод пока не будет введено число в диапазоне от 1 до 12
+        String funcPrint = "Функции программы: \n[1] - Просмотр праздников;\n[2] - Добавление праздников;\n[3] - Удаление праздников;\n[exit] - Выход из программы;";
+        System.out.println(funcPrint);
+        System.out.print("Ваш выбор: ");
+        Holidays holidays1 = new Holidays();
+        String nameOfHoliday;
+        String choice;
+        File
+                fileHolidays = new File("holidays.txt");
+        Scanner scannerInput = new Scanner(System.in); // добавлено создание scannerInput
+        while (!(choice = scannerInput.nextLine()).equals("exit")) {
+            switch (choice) {
 
-            System.out.print("Ваш выбор: ");
-            try {
-                String enter = reader.readLine();
-                if (enter.equals("exit")) {
+                case "1":
+                    ArrayList<String> holidays;
+                    holidays1.showHolidaysByMonth();
                     break;
-                }
-                mes = Integer.parseInt(enter);
-
-                if (mes < 1 || mes > 12) {
-                    System.out.println("Данного месяца не существует!");
-                }
-            } catch (Exception e) {
-                System.out.println("Ошибка: неверный формат данных");
+                case "2":
+                    holidays1.addHolidayToFile(fileHolidays, scannerInput);
+                    break;
+                case "3":
+                    holidays = holidays1.showHolidaysByMonth();
+                    System.out.println("Введите номер праздника: ");
+                    int numberOfHoliday = Integer.parseInt(scannerInput.nextLine());
+                    if (!holidays.isEmpty() && numberOfHoliday > 0 && numberOfHoliday <= holidays.size()) {
+                        nameOfHoliday = holidays.get(numberOfHoliday - 1);
+                        if (holidays.contains(nameOfHoliday)) {
+                            holidays1.deleteHolidayFromFile(fileHolidays, nameOfHoliday);
+                            holidays.remove(nameOfHoliday);
+                        }
+                    } else {
+                        System.out.println("Праздник не найден! ");
+                    }
+                    break;
+                default:
+                    System.out.println("Неверно выбрана функция! ");
+                    System.out.println(funcPrint);
+                    System.out.println("Выберите функцию заново: ");
+                    break;
             }
-
-            switch (mes) {
-
-                case 1:
-                    System.out.println("Праздники:");
-                    System.out.println("1 января - 'Новый год'");
-                    System.out.println("6 января - 'Рождественский сочельник'");
-                    System.out.println("7 января - 'Рождественский христово'");
-                    System.out.println("14 января - 'Старый новый год'");
-
-                    break;
-                case 2:
-                    System.out.println("Праздники:");
-                    System.out.println("20 февраля - 'Масленица'");
-                    System.out.println("12 февраля - 'День Дарвина'");
-
-                    break;
-                case 3:
-                    System.out.println("Праздники:");
-                    System.out.println("3 марта - 'Всемирный день писателя'");
-                    System.out.println("8 марта - 'Международный женский день'");
-                    break;
-                case 4:
-                    System.out.println("Праздники:");
-                    System.out.println("1 апреля - 'День смеха'");
-                    System.out.println("4 апреля - 'День Интернета'");
-                    break;
-                case 5:
-                    System.out.println("Праздники:");
-                    System.out.println("1 мая - 'Праздник труда, Первое мая'");
-                    System.out.println("9 мая - 'День Победы'");
-                    break;
-                case 6:
-                    System.out.println("Праздники:");
-                    System.out.println("1 июня - 'Международный день защиты детей'");
-                    System.out.println("10 июня - 'Всемирный день мороженого'");
-                    break;
-                case 7:
-                    System.out.println("Праздники:");
-                    System.out.println("4 июля - 'День отдыха от праздников'");
-                    System.out.println("5 июля - 'День трудоголиков'");
-                    break;
-                case 8:
-                    System.out.println("Праздники:");
-                    System.out.println("8 августа - 'Всемирный день кошек'");
-                    System.out.println("19 августа - 'Всемирный день фотографии'");
-                    break;
-                case 9:
-                    System.out.println("Праздники:");
-                    System.out.println("1 сентября - 'День знаний'");
-                    System.out.println("6 сентября - 'День рыжих'");
-                    break;
-                case 10:
-                    System.out.println("Праздники:");
-                    System.out.println("1 октября - 'День учителя '");
-                    System.out.println("2 октября - 'Международный день врача '");
-                    break;
-                case 11:
-                    System.out.println("Праздники:");
-                    System.out.println("10 ноября - 'Всемирный день молодежи'");
-                    System.out.println("13 ноября - 'Всемирный день доброты'");
-                    break;
-                case 12:
-                    System.out.println("Праздники:");
-                    System.out.println("1 декаря - 'День невролога'");
-                    System.out.println("8 декабря - 'Международный день художника'");
-            }
+            System.out.println(funcPrint);
+            System.out.println("Выберите функцию: ");
         }
     }
 }
+
